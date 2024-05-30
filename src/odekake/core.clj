@@ -14,6 +14,7 @@
    ["-h" "--help" "Show usage"]])
 
 (def ^:private db-file "weather.edn")
+(def ^:private html-dir "docs")
 
 (def ^:private all-areas
   {:akiku ["安芸区" "hiroshima" 7 37 6710 34107 34]
@@ -60,7 +61,11 @@
   (println "AREA ID     AREA")
   (println "-----------+--------------------")
   (dorun (for [area-id (keys all-areas)]
-           (printf "%-12s%s%n" area-id (get-in all-areas [area-id 0])))))
+           (printf "%-12s%s%n" area-id (get-in all-areas [area-id 0]))))
+  (flush)
+  ;; uberjar経由で実行したとき、flushしないと出ない。
+  ;; あるいは、shutdown-agentsするか?
+  )
 
 (defn- coerce-area-id
   [area-id-str]
@@ -91,33 +96,34 @@
   [db]
   (let [area-ids (keys db)
         html-str (u/read-resource! "weathers.html")]
-    (spit "weathers.html"
+    (spit (u/resolve-path html-dir "weathers.html")
           (str
            html-str
            (render/index db area-ids)
-           "</div></body></html>")))
+           "</div></div><div class=\"footer\"><div class=\"container\"></div></div></body></html>")))
   )
 
 (defn- gen-details!
   [db area-id]
-  (let [{:keys [area-name sites]} (area-id db)
+  (let [{:keys [area-name area-file-path sites]} (area-id db)
         html-str (u/read-resource! "weather.html")]
-    (spit (str (name area-id) ".html")
+    (spit area-file-path
           (str
            html-str
            (render/area-name area-name)
            (render/site-list sites)
            (render/weather sites)
-           "</div></body></html>"))))
+           "</div></div><div class=\"footer\"><div class=\"container\"></div></div></body></html>"))))
 
 (defn- go! [area-id]
   (let [db (u/read-edn! db-file {})
         sites (get-in db [area-id :sites])
         area-name (get-in all-areas [area-id 0])
-        wn (fetch-and-scrape-site! area-id :wn "wn.html" scrape/wn) 
+        wn (fetch-and-scrape-site! area-id :wn "wn.html" scrape/wn)
         tenkijp  (fetch-and-scrape-site! area-id :tenkijp "tenkijp.html" scrape/tenkijp)
         yahoo  (fetch-and-scrape-site! area-id :yahoo "yahoo.html" scrape/yahoo)
         db (assoc db area-id {:area-name area-name
+                              :area-file-path (u/resolve-path html-dir (str (name area-id) ".html"))
                               :last-updated (u/datetime2str (u/now))
                               :sites {:wn (or wn (:wn sites))
                                       :tenkijp (or tenkijp (:tenkijp sites))
@@ -145,6 +151,8 @@
  (spit "wn.html" (slurp "https://weathernews.jp/onebox/tenki/hiroshima/34107/"))
  (spit "tenkijp.html" (slurp "https://tenki.jp/forecast/7/37/6710/34107/10days.html"))
  (spit "yahoo.html" (slurp "https://weather.yahoo.co.jp/weather/jp/34/6710/34107.html"))
+
+ (go! :akiku)
 
  )
 

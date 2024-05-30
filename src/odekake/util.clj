@@ -8,6 +8,7 @@
    [java.awt Desktop]
    [java.net URI]
    [java.io File]
+   [java.util Locale]
    [java.time LocalDateTime LocalDate]
    [java.time.format DateTimeFormatter]))
 
@@ -36,6 +37,12 @@
         (.toPath)
         (.resolve part-str)
         (.toString))))
+
+(defn fname-from-path
+  [path-str]
+  (let [f (io/file path-str)]
+    (-> f
+        (.getName))))
 
 (defn mkdir
   [path-str]
@@ -121,7 +128,7 @@
 
 (defn datetime2str
   [dt]
-  (let [fmt (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss")]
+  (let [fmt (DateTimeFormatter/ofPattern "yyyy-MM-dd'T'HH:mm:ss" Locale/JAPANESE)]
     (.format dt fmt)))
 
 (defn str2datetime
@@ -130,15 +137,21 @@
 
 (defn date-key
   [date]
-  (let [fmt (DateTimeFormatter/ofPattern "yyyy-MM-dd")]
+  (let [fmt (DateTimeFormatter/ofPattern "yyyy-MM-dd" Locale/JAPANESE)]
     (-> date
         (.format fmt)
         keyword)))
 
 (defn date2str
   [^LocalDate date]
-  (let [fmt (DateTimeFormatter/ofPattern "M/d(E)")]
+  (let [fmt (DateTimeFormatter/ofPattern "M/d(E)" Locale/JAPANESE)]
     (.format date fmt)))
+
+(defn day-of-week
+  [^LocalDate date]
+  (-> date
+      (.getDayOfWeek)
+      (.getValue)))
 
 (comment
  
@@ -149,5 +162,8 @@
  (-> (today)
      (plus-days 2)
      (date2str))
+
+ (-> (today)
+     (day-of-week))
 
  )
