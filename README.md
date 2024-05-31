@@ -7,6 +7,7 @@
   - ウェザーニュース
   - tenki.jp
   - Yahoo!
+- https://gpsoft.github.io/odekake/
 
 ## 開発
 
@@ -28,7 +29,9 @@ $ clj -T:build uber
 ## 使い方
 
 ```
-java -jar odekake.jar --help
+$ java -jar odekake.jar --help
+or
+$ AREAID=:akiku make run
 ```
 
 ## メモ

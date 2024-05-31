@@ -7,7 +7,7 @@
    [odekake.util :as u])
   (:gen-class))
 
-(def ^:private ^:dynamic *debug* true)
+(def ^:private ^:dynamic *debug* false)
 
 (def ^:private cli-options
   [["-l" "--area-list" "Show list of areas"]
@@ -152,7 +152,8 @@
  (spit "tenkijp.html" (slurp "https://tenki.jp/forecast/7/37/6710/34107/10days.html"))
  (spit "yahoo.html" (slurp "https://weather.yahoo.co.jp/weather/jp/34/6710/34107.html"))
 
- (go! :akiku)
+ (binding [*debug* true]
+   (go! :akiku))
 
  )
 

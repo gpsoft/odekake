@@ -1,3 +1,5 @@
+AREAID ?= :akiku
+
 CMD_LIST := dev run uber
 
 all:
@@ -13,8 +15,8 @@ dev:
 	clj -M:dev
 
 run:
-	clj -M -m odekake.core
-	# clojure -M -m odekake.core $(USERID)
+	# clj -M -m odekake.core
+	java -jar target/odekake.jar $(AREAID)
 
 uber:
 	clojure -T:build clean
