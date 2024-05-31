@@ -56,7 +56,7 @@ body > .footer {
 }
 
 .container {
-	max-width: 920px;
+	max-width: 1020px;
 	min-width: 800px;
 	margin: 0 auto;
 	padding: 1em;
@@ -110,13 +110,40 @@ body > .footer {
 .site-list-item {
 	display: flex;
 }
+.site-list-item + .site-list-item {
+	margin-top: 8px;
+}
 .site-name {
 	flex-grow: 1;
 	max-width: 200px;
 
 	font-family: sans-serif;
-	color: hsl(210, 50%, 40%);
+}
+.site-list-item .site-name-ab {
+	display: inline-block;
+	width: 2.5em;
+	margin-right: 8px;
+}
+.site-name-ab {
+	text-align: center;
 	font-weight: bold;
+	font-size: 0.8em;
+}
+.site-name-ab[data-site-id='wn'] {
+	background-color: #0c419a;
+	color: #fff;
+}
+.site-name-ab[data-site-id='tenkijp'] {
+	border: 2px solid #0061ca;
+	border-radius: 20px;
+	color: #ff0000;
+}
+.site-name-ab[data-site-id='yahoo'] {
+	background-color: #ff0033;
+	color: #fff;
+}
+.weather-table .site-name-ab {
+	margin: 0 4px;
 }
 .site-version {
 	flex-grow: 1;
@@ -139,6 +166,9 @@ body > .footer {
 .weather-table th,
 .weather-table td {
 	border: 1px solid #606060;
+}
+.weather-table td {
+	line-height: 1.8;
 }
 .weather-table th,
 .weather-table td {
@@ -163,6 +193,11 @@ body > .footer {
 .weather-row td {
 	font-family: "apple color emoji", "segoe ui emoji", "noto color emoji", "android emoji", "emojisymbols", "emojione mozilla", "twemoji mozilla", "segoe ui symbol";
 	font-size: 1.2em;
+}
+.weather-table .temp-high-row td,
+.weather-table .temp-low-row td,
+.weather-table .rain-row td {
+	font-family: ui-monospace, "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", monospace;
 }
 .weather-table .temp-high-row td {
 	color: red;

@@ -49,7 +49,11 @@
                    (let [site (site-id sites)
                          {:keys [site-name site-name-ab version site-url]} site]
                      [:div.site-list-item
-                      [:div.site-name (str site-name "(" site-name-ab ")")]
+                      [:div.site-name
+                       [:span.site-name-ab
+                        {:data-site-id (name site-id)}
+                        site-name-ab]
+                       site-name]
                       [:div.site-version version]
                       [:a.site-link {:href site-url
                                      :target "_blank"}
@@ -77,7 +81,10 @@
                            (let [site (site-id sites)]
                              [:tr.weather-row
                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "天気"])
-                              [:th (:site-name-ab site)]
+                              [:th
+                               [:div.site-name-ab
+                                {:data-site-id site-id}
+                                (:site-name-ab site)]]
                               (map (fn [n]
                                      (let [today (u/today)
                                            dk (-> today
@@ -89,7 +96,10 @@
                            (let [site (site-id sites)]
                              [:tr.temp-high-row
                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "最高気温"])
-                              [:th (:site-name-ab site)]
+                              [:th
+                               [:div.site-name-ab
+                                {:data-site-id site-id}
+                                (:site-name-ab site)]]
                               (map (fn [n]
                                      (let [today (u/today)
                                            dk (-> today
@@ -101,7 +111,10 @@
                            (let [site (site-id sites)]
                              [:tr.temp-low-row
                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "最低気温"])
-                              [:th (:site-name-ab site)]
+                              [:th
+                               [:div.site-name-ab
+                                {:data-site-id site-id}
+                                (:site-name-ab site)]]
                               (map (fn [n]
                                      (let [today (u/today)
                                            dk (-> today
@@ -113,7 +126,10 @@
                            (let [site (site-id sites)]
                              [:tr.rain-row
                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "降水確率/降水量"])
-                              [:th (:site-name-ab site)]
+                              [:th
+                               [:div.site-name-ab
+                                {:data-site-id site-id}
+                                (:site-name-ab site)]]
                               (map (fn [n]
                                      (let [today (u/today)
                                            dk (-> today
