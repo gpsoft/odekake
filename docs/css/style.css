@@ -160,6 +160,10 @@ body > .footer {
 	color: red;
 	font-weight: bold;
 }
+.weather-row td {
+	font-family: "apple color emoji", "segoe ui emoji", "noto color emoji", "android emoji", "emojisymbols", "emojione mozilla", "twemoji mozilla", "segoe ui symbol";
+	font-size: 1.2em;
+}
 .weather-table .temp-high-row td {
 	color: red;
 }

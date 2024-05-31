@@ -1,14 +1,25 @@
 (ns odekake.render
   (:require
-   [clojure.string :refer [join]]
+   [clojure.string :refer [join] :as str]
    [hiccup2.core :refer [html]]
    [odekake.util :as u]))
 
 (defn- maybe-transition
   [v_or_vs]
   (if (vector? v_or_vs)
-    (join "→" v_or_vs)
+    (join "⇒" v_or_vs)
     v_or_vs))
+
+(defn- iconic-weather
+  [weather-str]
+  (when weather-str
+    (-> weather-str
+        (str/replace #"(晴れ|晴)" "☀")
+        (str/replace #"(曇り|曇)" "☁")
+        (str/replace #"雨" "☔")
+        (str/replace #"雪" "❄")
+        (str/replace #"のち" "→")
+        (str/replace #"(ときどき|時々)" "/"))))
 
 (defn index
   [db area-ids]
@@ -72,7 +83,7 @@
                                            dk (-> today
                                                   (u/plus-days n)
                                                   u/date-key)]
-                                       [:td (maybe-transition (get-in site [:forecasts dk :weather]))])) (range 1 11)) ]))
+                                       [:td (iconic-weather (maybe-transition (get-in site [:forecasts dk :weather])))])) (range 1 11)) ]))
                          site-ids)
             (map-indexed (fn [ix site-id]
                            (let [site (site-id sites)]
@@ -112,3 +123,9 @@
                          site-ids)
             ]]]))
   )
+
+(comment
+ 
+ (html [:td "a" [:span "b"]])
+ 
+ )
