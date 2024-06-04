@@ -19,7 +19,7 @@
         (str/replace #"雨" "☔")
         (str/replace #"雪" "❄")
         (str/replace #"のち" "→")
-        (str/replace #"(ときどき|時々)" "/"))))
+        (str/replace #"(ときどき|時々|一時)" "/"))))
 
 (defn index
   [db area-ids]
