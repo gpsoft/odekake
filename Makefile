@@ -24,9 +24,10 @@ uber:
 	clojure -T:build uber
 
 sync:
+	git checkout watch
 	java -jar target/odekake.jar :akiku
 	java -jar target/odekake.jar :saka
-	git com -am "Update weather"
+	git commit -am "Update weather"
 	git push
 
 %:
