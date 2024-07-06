@@ -42,9 +42,12 @@ https://tenki.jp/forecast/7/37/6710/34107/10days.html
 https://weather.yahoo.co.jp/weather/jp/34/6710/34107.html
 37 広島
 35 島根
+34 鳥取
 38 山口
+
 34 広島
 32 島根
+31 鳥取
 35 山口
 ["中区" "hiroshima" 7 37 6710 34101 34]
 ["東区" "hiroshima" 7 37 6710 34102 34]
