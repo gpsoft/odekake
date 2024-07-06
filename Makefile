@@ -26,6 +26,8 @@ uber:
 sync:
 	java -jar target/odekake.jar :akiku
 	java -jar target/odekake.jar :saka
+	java -jar target/odekake.jar :sanbe
+	java -jar target/odekake.jar :daisen
 	git com -am "Update weather"
 	git push
 
