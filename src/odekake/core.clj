@@ -17,15 +17,9 @@
 (def ^:private html-dir "docs")
 
 (def ^:private all-areas
-  {:akiku ["安芸区" "hiroshima" 7 37 6710 34107 34]
-   :saka ["坂町" "hiroshima" 7 37 6710 34309 34]
-   :etajima ["江田島市" "hiroshima" 7 37 6710 34215 34]
-   :akiota ["安芸太田町" "hiroshima" 7 37 6720 34368 34]
-   :kure ["呉市" "hiroshima" 7 37 6710 34202 34]
-   :sanbe ["島根太田市(三瓶山)" "shimane" 7 35 6820 32205 32]
-   :daisen ["鳥取大山町" "tottori" 7 34 6920 31386 31]
-   :azuma ["庄原市(吾妻山)" "hiroshima" 7 37 6720 34210 34]
-   })
+  (u/read-edn! "areas.edn"
+               {:akiku ["安芸区" "hiroshima" 7 37 6710 34107 34]
+                :saka ["坂町" "hiroshima" 7 37 6710 34309 34]}))
 
 (def ^:private all-sites
   {:wn
@@ -162,5 +156,6 @@
  (go! :daisen)
  (go! :sanbe)
 
+ (u/read-edn! "areas.edn" {})
  )
 
