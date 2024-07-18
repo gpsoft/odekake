@@ -15,7 +15,7 @@ ul, ol, li, dd, dl, dt {
 body {
 	font-family: serif;
 	font-size: 1rem;
-	min-height: 100vh;
+	min-height: 100dvh;
 	color: #303030;
 }
 
@@ -51,15 +51,21 @@ body > .footer {
 	flex: 0 0 40px;
 }
 
+.main {
+	overflow-x: auto;
+}
+
 .header, .footer {
 	background-color: hsl(210, 50%, 40%);
 }
 
 .container {
 	max-width: 1020px;
-	min-width: 800px;
 	margin: 0 auto;
 	padding: 1em;
+}
+.main .container {
+	min-width: 800px;
 }
 
 article {
