@@ -40,6 +40,13 @@
     :url-fn (fn [area-id]
               (let [[_ _ _ _ u4 u5 u6] (get all-areas area-id)]
                 (str "https://weather.yahoo.co.jp/weather/jp/" u6 "/" u4 "/" u5 ".html")))}
+   :tenkura
+   {:site-name "てんくら"
+    :site-name-ab "暮"
+    :url-fn (fn [area-id]
+              (let [[_ _ _ _ _ _ _ u7] (get all-areas area-id)]
+                (str "https://tenkura.n-kishou.co.jp/tk/kanko/kad.html?code=" u7 "&type=15&ba=cg")))
+    :scraping false}
    })
 
 (defn- show-usage!
@@ -89,6 +96,16 @@
                :version version
                :forecasts forecasts)))
 
+(defn- static-site
+  [area-id site-id]
+  (let [{:keys [site-name site-name-ab url-fn]} (site-id all-sites)
+        url (url-fn area-id)]
+    (array-map :site-name site-name
+               :site-name-ab site-name-ab
+               :site-url url
+               :version nil
+               :forecasts nil)))
+
 (defn- gen-index!
   [db]
   (let [area-ids (keys db)
@@ -109,7 +126,7 @@
            html-str
            (render/area-name area-name)
            (render/site-list sites)
-           (render/weather sites)
+           (render/weather (dissoc sites :tenkura))
            "</div></div><div class=\"footer\"><div class=\"container\"></div></div></body></html>"))))
 
 (defn- go! [area-id]
@@ -119,12 +136,14 @@
         wn (fetch-and-scrape-site! area-id :wn "wn.html" scrape/wn)
         tenkijp  (fetch-and-scrape-site! area-id :tenkijp "tenkijp.html" scrape/tenkijp)
         yahoo  (fetch-and-scrape-site! area-id :yahoo "yahoo.html" scrape/yahoo)
+        tenkura (static-site area-id :tenkura)
         db (assoc db area-id {:area-name area-name
                               :area-file-path (u/resolve-path html-dir (str (name area-id) ".html"))
                               :last-updated (u/datetime2str (u/now))
                               :sites {:wn (or wn (:wn sites))
                                       :tenkijp (or tenkijp (:tenkijp sites))
-                                      :yahoo (or yahoo (:yahoo sites))}})
+                                      :yahoo (or yahoo (:yahoo sites))
+                                      :tenkura (or tenkura (:tenkura sites))}})
         _ (u/write-edn! db-file db)]
     (gen-index! db)
     (gen-details! db area-id)))
@@ -150,7 +169,7 @@
  (spit "yahoo.html" (slurp "https://weather.yahoo.co.jp/weather/jp/34/6710/34107.html"))
 
  (binding [*debug* true]
-   (go! :akiku))
+   (go! :daisen))
 
  (go! :saka)
  (go! :daisen)

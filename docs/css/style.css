@@ -162,6 +162,9 @@ article + article {
 	background-color: #ff0033;
 	color: #fff;
 }
+.site-name-ab[data-site-id='tenkura'] {
+	border: 1px solid #888888;
+}
 .weather-table .site-name-ab {
 	margin: 0 4px;
 }

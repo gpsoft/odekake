@@ -92,4 +92,6 @@ https://weather.yahoo.co.jp/weather/jp/34/6710/34107.html
 8120 35215 山口県周南市
 8110 35216 山口県山陽小野田市
 8130 35305 山口県周防大島町
+
+https://tenkura.n-kishou.co.jp/tk/kanko/kad.html?code=31150016&type=15&ba=cg
 ```
