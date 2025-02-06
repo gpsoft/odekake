@@ -16,8 +16,8 @@ dev:
 	clj -M:dev
 
 run:
-	# clj -M -m odekake.core
-	java -jar target/odekake.jar $(AREAID)
+	clj -M -m odekake.core $(AREAID)
+	# java -jar target/odekake.jar $(AREAID)
 
 uber:
 	clojure -T:build clean

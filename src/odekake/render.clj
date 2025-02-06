@@ -66,78 +66,82 @@
     (html [:div.weather-section
            [:h2.weather-header "天気予報"]
            [:table.weather-table
-           [:thead
-            [:tr.weather-date-row
-             [:th {:colspan 2} "日付"]
-             (map (fn [n]
-                    (let [today (u/today)
-                          date (-> today
-                                   (u/plus-days n))]
-                      [:td {:data-dow (u/day-of-week date)}
-                       (u/date2str date)]))
-                  (range 1 11))]]
-           [:tbody
-            (map-indexed (fn [ix site-id]
-                           (let [site (site-id sites)]
-                             [:tr.weather-row
-                              (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "天気"])
-                              [:th
-                               [:div.site-name-ab
-                                {:data-site-id site-id}
-                                (:site-name-ab site)]]
-                              (map (fn [n]
-                                     (let [today (u/today)
-                                           dk (-> today
-                                                  (u/plus-days n)
-                                                  u/date-key)]
-                                       [:td (iconic-weather (maybe-transition (get-in site [:forecasts dk :weather])))])) (range 1 11)) ]))
-                         site-ids)
-            (map-indexed (fn [ix site-id]
-                           (let [site (site-id sites)]
-                             [:tr.temp-high-row
-                              (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "最高気温"])
-                              [:th
-                               [:div.site-name-ab
-                                {:data-site-id site-id}
-                                (:site-name-ab site)]]
-                              (map (fn [n]
-                                     (let [today (u/today)
-                                           dk (-> today
-                                                  (u/plus-days n)
-                                                  u/date-key)]
-                                       [:td (maybe-transition (get-in site [:forecasts dk :temp-high]))])) (range 1 11)) ]))
-                         site-ids)
-            (map-indexed (fn [ix site-id]
-                           (let [site (site-id sites)]
-                             [:tr.temp-low-row
-                              (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "最低気温"])
-                              [:th
-                               [:div.site-name-ab
-                                {:data-site-id site-id}
-                                (:site-name-ab site)]]
-                              (map (fn [n]
-                                     (let [today (u/today)
-                                           dk (-> today
-                                                  (u/plus-days n)
-                                                  u/date-key)]
-                                       [:td (get-in site [:forecasts dk :temp-low])])) (range 1 11)) ]))
-                         site-ids)
-            (map-indexed (fn [ix site-id]
-                           (let [site (site-id sites)]
-                             [:tr.rain-row
-                              (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "降水確率/降水量"])
-                              [:th
-                               [:div.site-name-ab
-                                {:data-site-id site-id}
-                                (:site-name-ab site)]]
-                              (map (fn [n]
-                                     (let [today (u/today)
-                                           dk (-> today
-                                                  (u/plus-days n)
-                                                  u/date-key)]
-                                       [:td (maybe-transition (get-in site [:forecasts dk :rain]))])) (range 1 11)) ]))
-                         site-ids)
-            ]]]))
+            [:thead
+             [:tr.weather-date-row
+              [:th {:colspan 2} "日付"]
+              (map (fn [n]
+                     (let [today (u/today)
+                           date (-> today
+                                    (u/plus-days n))]
+                       [:td {:data-dow (u/day-of-week date)}
+                        (u/date2str date)]))
+                   (range 1 11))]]
+            [:tbody
+             (map-indexed (fn [ix site-id]
+                            (let [site (site-id sites)]
+                              [:tr.weather-row
+                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "天気"])
+                               [:th
+                                [:div.site-name-ab
+                                 {:data-site-id site-id}
+                                 (:site-name-ab site)]]
+                               (map (fn [n]
+                                      (let [today (u/today)
+                                            dk (-> today
+                                                   (u/plus-days n)
+                                                   u/date-key)
+                                            iw (->> (get-in site [:forecasts dk :weather])
+                                                    maybe-transition 
+                                                    iconic-weather)]
+                                        [:td iw]))
+                                    (range 1 11)) ]))
+                          site-ids)
+             (map-indexed (fn [ix site-id]
+                            (let [site (site-id sites)]
+                              [:tr.temp-high-row
+                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "最高気温"])
+                               [:th
+                                [:div.site-name-ab
+                                 {:data-site-id site-id}
+                                 (:site-name-ab site)]]
+                               (map (fn [n]
+                                      (let [today (u/today)
+                                            dk (-> today
+                                                   (u/plus-days n)
+                                                   u/date-key)]
+                                        [:td (maybe-transition (get-in site [:forecasts dk :temp-high]))])) (range 1 11)) ]))
+                          site-ids)
+             (map-indexed (fn [ix site-id]
+                            (let [site (site-id sites)]
+                              [:tr.temp-low-row
+                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "最低気温"])
+                               [:th
+                                [:div.site-name-ab
+                                 {:data-site-id site-id}
+                                 (:site-name-ab site)]]
+                               (map (fn [n]
+                                      (let [today (u/today)
+                                            dk (-> today
+                                                   (u/plus-days n)
+                                                   u/date-key)]
+                                        [:td (get-in site [:forecasts dk :temp-low])])) (range 1 11)) ]))
+                          site-ids)
+             (map-indexed (fn [ix site-id]
+                            (let [site (site-id sites)]
+                              [:tr.rain-row
+                               (when (zero? ix) [:th.span-header {:rowspan (count site-ids)} "降水確率/降水量"])
+                               [:th
+                                [:div.site-name-ab
+                                 {:data-site-id site-id}
+                                 (:site-name-ab site)]]
+                               (map (fn [n]
+                                      (let [today (u/today)
+                                            dk (-> today
+                                                   (u/plus-days n)
+                                                   u/date-key)]
+                                        [:td (maybe-transition (get-in site [:forecasts dk :rain]))])) (range 1 11)) ]))
+                          site-ids)
+             ]]]))
   )
 
 (comment
