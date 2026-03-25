@@ -228,3 +228,19 @@ article + article {
 .weather-table .temp-low-row td {
 	color: blue;
 }
+
+@media (max-width: 767px) {
+	.main .container {
+		min-width: unset;
+		padding-left: 4px;
+		padding-right: 4px;
+	}
+	.site-list-body {
+		margin-left: unset;
+	}
+	.site-name {
+		width: 11em;
+		flex-grow: 0;
+		flex-shrink: 0;
+	}
+}
